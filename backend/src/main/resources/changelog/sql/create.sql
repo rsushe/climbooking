@@ -1,3 +1,5 @@
+--changeset rsushe:import tables creation
+
 -- Creating the ENUM type for difficulty (assuming possible values; adjust as needed)
 CREATE TYPE difficulty_enum AS ENUM ('6a', '6b', '6c', '7a');
 
