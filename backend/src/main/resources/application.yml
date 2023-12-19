@@ -1,0 +1,8 @@
+spring:
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://c-c9qlodb67vpo12m5rgb3.rw.mdb.yandexcloud.net:6432/climbooking_prod
+    username: climbooking_prod
+    password: d22-QqU-pqJ-fFd
+  liquibase:
+    change-log: changelog/changelog.xml
