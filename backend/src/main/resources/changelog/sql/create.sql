@@ -10,7 +10,7 @@ CREATE TYPE route_type_enum AS ENUM ('bouldering', 'lead', 'trad');
 CREATE TYPE sport_category_enum AS ENUM ('beginner', 'amateur', 'professional');
 
 -- Creating the Climber table
-CREATE TABLE Climber
+CREATE TABLE IF NOT EXISTS Climber
 (
     id             SERIAL PRIMARY KEY,
     name           VARCHAR(50),
@@ -21,7 +21,7 @@ CREATE TABLE Climber
 );
 
 -- Creating the Place table
-CREATE TABLE Place
+CREATE TABLE IF NOT EXISTS Place
 (
     id       SERIAL PRIMARY KEY,
     name     VARCHAR(50),
@@ -31,7 +31,7 @@ CREATE TABLE Place
 );
 
 -- Creating the Category table
-CREATE TABLE Category
+CREATE TABLE IF NOT EXISTS Category
 (
     id       SERIAL PRIMARY KEY,
     from_age INT,
@@ -40,7 +40,7 @@ CREATE TABLE Category
 );
 
 -- Creating the Sponsor table
-CREATE TABLE Sponsor
+CREATE TABLE IF NOT EXISTS Sponsor
 (
     id      SERIAL PRIMARY KEY,
     name    VARCHAR(50),
@@ -50,7 +50,7 @@ CREATE TABLE Sponsor
 );
 
 -- Creating the Tournament table
-CREATE TABLE Tournament
+CREATE TABLE IF NOT EXISTS Tournament
 (
     id         SERIAL PRIMARY KEY,
     name       VARCHAR(50),
@@ -62,7 +62,7 @@ CREATE TABLE Tournament
 -- Further tables will be created after establishing these bases.
 
 -- Creating the Route table with foreign key to Place
-CREATE TABLE Route
+CREATE TABLE IF NOT EXISTS Route
 (
     id            SERIAL PRIMARY KEY,
     place_id      INT,
@@ -75,7 +75,7 @@ CREATE TABLE Route
 );
 
 -- Creating the Tournament_category table with foreign keys to Tournament and Category
-CREATE TABLE Tournament_category
+CREATE TABLE IF NOT EXISTS Tournament_category
 (
     id            SERIAL PRIMARY KEY,
     tournament_id INT,
@@ -85,7 +85,7 @@ CREATE TABLE Tournament_category
 );
 
 -- Creating the Tournament_routes table with foreign keys to Tournament and Route
-CREATE TABLE Tournament_routes
+CREATE TABLE IF NOT EXISTS Tournament_routes
 (
     route_id      INT,
     tournament_id INT,
@@ -95,7 +95,7 @@ CREATE TABLE Tournament_routes
 );
 
 -- Creating the Tournament_organisator table with foreign keys to Tournament and Organiser
-CREATE TABLE Tournament_organisator
+CREATE TABLE IF NOT EXISTS Tournament_organisator
 (
     tournament_id INT,
     climber_id    INT,
@@ -105,7 +105,7 @@ CREATE TABLE Tournament_organisator
 );
 
 -- Creating the Tournament_sponsor table with foreign keys to Tournament and Sponsor
-CREATE TABLE Tournament_sponsor
+CREATE TABLE IF NOT EXISTS Tournament_sponsor
 (
     tournament_id INT,
     sponsor_id    INT,
@@ -119,7 +119,7 @@ CREATE TABLE Tournament_sponsor
 -- Hold off on creating 'Lead_meta', 'Route_author', 'Route_ascent', 'Booking', 'Booking_notification', 'Participant'
 
 -- Creating the Route_author table with foreign keys to Route and Climber
-CREATE TABLE Route_author
+CREATE TABLE IF NOT EXISTS Route_author
 (
     route_id   INT,
     climber_id INT,
@@ -129,7 +129,7 @@ CREATE TABLE Route_author
 );
 
 -- Creating the Lead_meta table with a foreign key to Route
-CREATE TABLE Lead_meta
+CREATE TABLE IF NOT EXISTS Lead_meta
 (
     id              SERIAL PRIMARY KEY,
     route_id        INT,
@@ -139,7 +139,7 @@ CREATE TABLE Lead_meta
 );
 
 -- Creating the Route_ascent table with foreign keys to Route and Climber
-CREATE TABLE Route_ascent
+CREATE TABLE IF NOT EXISTS Route_ascent
 (
     route_id    INT,
     climber_id  INT,
@@ -150,7 +150,7 @@ CREATE TABLE Route_ascent
 );
 
 -- Creating the Booking table with foreign keys to Climber and Route
-CREATE TABLE Booking
+CREATE TABLE IF NOT EXISTS Booking
 (
     id         SERIAL PRIMARY KEY,
     climber_id INT,
@@ -164,7 +164,7 @@ CREATE TABLE Booking
 
 -- Creating the Notification table
 -- Since no table references Notification as a foreign key, you can create this first
-CREATE TABLE Notification
+CREATE TABLE IF NOT EXISTS Notification
 (
     id         SERIAL PRIMARY KEY,
     climber_id INT,
@@ -173,7 +173,7 @@ CREATE TABLE Notification
 );
 
 -- Creating the Booking_notification table with foreign keys to Booking and Climber
-CREATE TABLE Booking_notification
+CREATE TABLE IF NOT EXISTS Booking_notification
 (
     notification_id INT,
     booking_id      INT,
@@ -183,7 +183,7 @@ CREATE TABLE Booking_notification
 );
 
 -- Creating the Participant table with foreign keys to Climber and Tournament
-CREATE TABLE Participant
+CREATE TABLE IF NOT EXISTS Participant
 (
     climber_id    INT,
     tournament_id INT,
@@ -192,13 +192,13 @@ CREATE TABLE Participant
     PRIMARY KEY (climber_id, tournament_id)
 );
 
-CREATE TABLE Achievement
+CREATE TABLE IF NOT EXISTS Achievement
 (
     title       VARCHAR(50) PRIMARY KEY,
     description TEXT
 );
 
-CREATE TABLE Climber_achievement
+CREATE TABLE IF NOT EXISTS Climber_achievement
 (
     climber_id        INT,
     achievement_title VARCHAR(50),
