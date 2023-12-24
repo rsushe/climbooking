@@ -14,13 +14,13 @@ class ClimberService(private val jdbcTemplate: JdbcTemplate) {
             from climber cl
             inner join category ct on cl.category_id = ct.id
         """.trimIndent(),
-    ) { response, _ ->
+    ) { rs, _ ->
         Climber(
-            response.getInt("id"),
-            response.getString("name"),
-            response.getDate("birthday"),
-            SportCategory.ofStatus(response.getString("sport_category")),
-            response.getString("category_name")
+            rs.getInt("id"),
+            rs.getString("name"),
+            rs.getDate("birthday"),
+            SportCategory.ofStatus(rs.getString("sport_category")),
+            rs.getString("category_name")
         )
     }
 }

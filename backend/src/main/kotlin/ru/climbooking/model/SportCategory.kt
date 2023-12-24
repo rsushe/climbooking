@@ -6,7 +6,6 @@ enum class SportCategory(val status: String) {
     PROFESSIONAL("professional");
 
     companion object {
-        @JvmStatic
         fun ofStatus(status: String): SportCategory = values().first { it.status == status }
     }
 }
