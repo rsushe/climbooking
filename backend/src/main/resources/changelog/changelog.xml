@@ -9,4 +9,5 @@
     <include file="sql/v2_create_indexes.sql" relativeToChangelogFile="true"/>
     <include file="sql/v3_create_functions.sql" relativeToChangelogFile="true"/>
     <include file="sql/v4_create_triggers.sql" relativeToChangelogFile="true"/>
+    <include file="sql/v5_add_insert_climber_function.sql" relativeToChangelogFile="true"/>
 </databaseChangeLog>
