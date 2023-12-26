@@ -6,4 +6,7 @@
         http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.3.xsd">
 
     <include file="sql/create.sql" relativeToChangelogFile="true"/>
+    <include file="sql/v2_create_indexes.sql" relativeToChangelogFile="true"/>
+    <include file="sql/v3_create_functions.sql" relativeToChangelogFile="true"/>
+    <include file="sql/v4_create_triggers.sql" relativeToChangelogFile="true"/>
 </databaseChangeLog>
