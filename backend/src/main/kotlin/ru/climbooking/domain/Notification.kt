@@ -1,10 +1,13 @@
 package ru.climbooking.domain
 
+import com.fasterxml.jackson.annotation.JsonIgnore
+
 data class Notification(
     val id: Int? = null,
     val climberId: Int,
     val status: Status = Status.NEW,
-    val bookingIds: List<Int>,
+    @JsonIgnore
+    val bookingIds: List<Int>? = null,
 ) {
     enum class Status {
         NEW,

@@ -20,6 +20,10 @@ class BookingService(private val bookingDao: BookingDao) {
         return overlayingBookings
     }
 
+    fun cancel(bookingId: Int) {
+        bookingDao.updateStatus(bookingId, Booking.Status.CANCELLED)
+    }
+
     fun getAll(): List<Booking> = bookingDao.findAll()
 
     fun getActive(routeId: Int): List<Booking> = bookingDao.findActiveOrTournament(routeId)

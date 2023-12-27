@@ -25,6 +25,16 @@ class BookingDao(private val jdbcTemplate: NamedParameterJdbcTemplate) {
         ) {}
     }
 
+    @Transactional
+    fun updateStatus(bookingId: Int, newStatus: Booking.Status) {
+        jdbcTemplate.update(
+            "UPDATE booking SET status = :new_status WHERE id = :id;",
+            MapSqlParameterSource()
+                .addValue("id", bookingId)
+                .addValue("new_status", newStatus.name)
+        )
+    }
+
     fun findAll(): List<Booking> = jdbcTemplate.query(
         FIND_ALL
     ) { rs: ResultSet, _: Int -> rs.unmap() }
