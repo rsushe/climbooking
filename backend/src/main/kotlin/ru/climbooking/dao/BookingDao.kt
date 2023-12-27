@@ -29,9 +29,9 @@ class BookingDao(private val jdbcTemplate: NamedParameterJdbcTemplate) {
         FIND_ALL
     ) { rs: ResultSet, _: Int -> rs.unmap() }
 
-    fun findActiveOrTournamentBy(route_id: Int): List<Booking> = jdbcTemplate.query(
+    fun findActiveOrTournament(routeId: Int): List<Booking> = jdbcTemplate.query(
         FIND_ACTIVE_OR_TOURNAMENT_BY_ROUTE_ID,
-        MapSqlParameterSource().addValue("route_id", route_id)
+        MapSqlParameterSource().addValue("route_id", routeId)
     ) { rs: ResultSet, _: Int -> rs.unmap() }
 
     companion object {
