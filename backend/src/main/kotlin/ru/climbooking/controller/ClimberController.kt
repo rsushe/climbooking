@@ -14,6 +14,6 @@ class ClimberController(private val climberDao: ClimberDao) {
     @GetMapping("/v1/climbers")
     fun getAllClimbers(): List<Climber> = climberDao.findAll()
 
-    @PostMapping("/v1/climber")
+    @PostMapping("/v1/climbers")
     fun insertClimber(@RequestBody climberRequest: ClimberRequest) = climberDao.insert(climberRequest)
 }
