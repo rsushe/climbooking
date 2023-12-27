@@ -72,6 +72,5 @@ class RouteDao(val jdbcTemplate: NamedParameterJdbcTemplate) {
             SET is_rolled = true
             WHERE id = :route_id
         """.trimIndent()
-        private val CALL_INSERT = ""
     }
 }

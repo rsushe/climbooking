@@ -15,9 +15,9 @@ class RouteController(val routeDao: RouteDao) {
     @GetMapping("/v1/routes")
     fun getAllRoutes(): List<Route> = routeDao.findAll()
 
-    @PostMapping("/v1/route")
+    @PostMapping("/v1/routes")
     fun addRoute(@RequestBody routeRequest: RouteRequest) = routeDao.insert(routeRequest)
 
-    @PatchMapping("/v1/route/roll/{routeId}")
+    @PatchMapping("/v1/routes/{routeId}/roll")
     fun rollRoute(@PathVariable("routeId") routeId: Int) = routeDao.roll(routeId)
 }
