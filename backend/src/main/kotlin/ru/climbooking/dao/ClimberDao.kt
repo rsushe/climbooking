@@ -1,4 +1,4 @@
-package ru.climbooking.service
+package ru.climbooking.dao
 
 import org.springframework.jdbc.core.JdbcTemplate
 import org.springframework.stereotype.Repository
@@ -12,7 +12,7 @@ class ClimberDao(private val jdbcTemplate: JdbcTemplate) {
         SELECT_ALL
     ) { rs, _ ->
         Climber(
-            rs.getInt("id").toUInt(),
+            rs.getInt("id"),
             rs.getString("name"),
             rs.getDate("birthday"),
             SportCategory.ofStatus(rs.getString("sport_category")),

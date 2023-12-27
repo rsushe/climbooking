@@ -3,7 +3,7 @@ package ru.climbooking.controller
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RestController
 import ru.climbooking.domain.Climber
-import ru.climbooking.service.ClimberDao
+import ru.climbooking.dao.ClimberDao
 
 @RestController
 class ClimberController(private val climberDao: ClimberDao) {
