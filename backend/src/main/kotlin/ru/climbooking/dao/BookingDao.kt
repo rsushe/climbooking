@@ -35,7 +35,7 @@ class BookingDao(private val jdbcTemplate: NamedParameterJdbcTemplate) {
     ) { rs: ResultSet, _: Int -> rs.unmap() }
 
     companion object {
-        private val CALL_INSERT = "SELECT add_booking(:climber_id, :route_id, :status, :start_time, :end_time);"
+        private const val CALL_INSERT = "SELECT add_booking(:climber_id, :route_id, :status, :start_time, :end_time);"
         private val FIND_ALL = """
             SELECT id, climber_id, route_id, status, start_time, end_time FROM booking;
         """.trimIndent()
