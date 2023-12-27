@@ -1,6 +1,6 @@
 --liquibase formatted sql
 
---changeset rsushe:add_insert_climber splitStatements:false
+--changeset rsushe:add_climber_procedure splitStatements:false
 CREATE OR REPLACE FUNCTION add_climber(climber_name VARCHAR, birthday DATE, sport_category VARCHAR, category_id INTEGER)
     RETURNS VOID AS $$
 BEGIN

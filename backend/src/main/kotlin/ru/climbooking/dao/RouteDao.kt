@@ -6,6 +6,7 @@ import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
 import ru.climbooking.domain.Difficulty
 import ru.climbooking.domain.Route
+import ru.climbooking.domain.RouteRequest
 import ru.climbooking.domain.RouteType
 import java.lang.IllegalArgumentException
 
@@ -43,6 +44,19 @@ class RouteDao(val jdbcTemplate: NamedParameterJdbcTemplate) {
         Boolean::class.java
     ) ?: false
 
+    @Transactional
+    fun insert(routeRequest: RouteRequest) {
+        jdbcTemplate.update(
+            "CALL create_route(:place_id, :name, :difficulty, :type, :creation_date);",
+            MapSqlParameterSource()
+                .addValue("place_id", routeRequest.placeId)
+                .addValue("name", routeRequest.name)
+                .addValue("difficulty", routeRequest.difficulty)
+                .addValue("type", routeRequest.type)
+                .addValue("creation_date", routeRequest.creationDate)
+        )
+    }
+
     companion object {
         private val FIND_ALL = """
             SELECT id, place_id, name, difficulty, type, creation_date, is_rolled
@@ -58,5 +72,6 @@ class RouteDao(val jdbcTemplate: NamedParameterJdbcTemplate) {
             SET is_rolled = true
             WHERE id = :route_id
         """.trimIndent()
+        private val CALL_INSERT = ""
     }
 }
