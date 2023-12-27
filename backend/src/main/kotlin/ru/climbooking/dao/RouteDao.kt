@@ -11,7 +11,7 @@ import ru.climbooking.domain.RouteType
 import java.lang.IllegalArgumentException
 
 @Repository
-class RouteDao(val jdbcTemplate: NamedParameterJdbcTemplate) {
+class RouteDao(private val jdbcTemplate: NamedParameterJdbcTemplate) {
 
     fun findAll(): List<Route> = jdbcTemplate.query(
         FIND_ALL,
@@ -42,20 +42,19 @@ class RouteDao(val jdbcTemplate: NamedParameterJdbcTemplate) {
         GET_IS_ROLLED_BY_ID,
         MapSqlParameterSource().addValue("route_id", routeId),
         Boolean::class.java
-    ) ?: false
+    )!!
 
     @Transactional
-    fun insert(routeRequest: RouteRequest) {
-        jdbcTemplate.update(
-            "CALL create_route(:place_id, :name, :difficulty, :type, :creation_date);",
-            MapSqlParameterSource()
-                .addValue("place_id", routeRequest.placeId)
-                .addValue("name", routeRequest.name)
-                .addValue("difficulty", routeRequest.difficulty)
-                .addValue("type", routeRequest.type)
-                .addValue("creation_date", routeRequest.creationDate)
-        )
-    }
+    fun insert(routeRequest: RouteRequest) = jdbcTemplate.update(
+        "CALL create_route(:place_id, :climber_ids, :name, :difficulty, :type, :creation_date);",
+        MapSqlParameterSource()
+            .addValue("place_id", routeRequest.placeId)
+            .addValue("climber_ids", routeRequest.authors.toTypedArray())
+            .addValue("name", routeRequest.name)
+            .addValue("difficulty", routeRequest.difficulty)
+            .addValue("type", routeRequest.type)
+            .addValue("creation_date", routeRequest.creationDate)
+    )
 
     companion object {
         private val FIND_ALL = """

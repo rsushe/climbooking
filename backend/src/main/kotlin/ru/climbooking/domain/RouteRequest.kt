@@ -9,4 +9,5 @@ data class RouteRequest(
     @JsonProperty("difficulty") val difficulty: String,
     @JsonProperty("type") val type: String,
     @JsonProperty("creation_date") val creationDate: Date,
+    @JsonProperty("authors") val authors: List<Int>
 )

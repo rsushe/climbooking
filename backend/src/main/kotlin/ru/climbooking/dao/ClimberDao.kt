@@ -26,19 +26,17 @@ class ClimberDao(private val jdbcTemplate: NamedParameterJdbcTemplate) {
 
     @Transactional
     fun insert(climber: ClimberRequest) {
-        println(climber)
-        jdbcTemplate.query(
-            CALL_INSERT,
+        jdbcTemplate.update(
+            "CALL add_climber(:climber_name, :birthday, :sport_category, :category_id);",
             MapSqlParameterSource()
                 .addValue("climber_name", climber.name)
                 .addValue("birthday", climber.birthday, Types.DATE)
                 .addValue("sport_category", climber.category)
                 .addValue("category_id", climber.categoryId.toInt())
-        ) {}
+        )
     }
 
     companion object {
-        private const val CALL_INSERT = "SELECT add_climber(:climber_name, :birthday, :sport_category, :category_id);"
         private val SELECT_ALL = """
             select cl.id, cl.name, cl.birthday, cl.sport_category, ct.name as category_name
             from climber cl
