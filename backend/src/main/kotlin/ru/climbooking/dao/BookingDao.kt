@@ -35,6 +35,13 @@ class BookingDao(private val jdbcTemplate: NamedParameterJdbcTemplate) {
         )
     }
 
+    fun updateExpiredEndDate() {
+        jdbcTemplate.update(
+            "UPDATE booking SET status = 'FINISHED' WHERE end_time < now();",
+            MapSqlParameterSource()
+        )
+    }
+
     fun findAll(): List<Booking> = jdbcTemplate.query(
         FIND_ALL
     ) { rs: ResultSet, _: Int -> rs.unmap() }
