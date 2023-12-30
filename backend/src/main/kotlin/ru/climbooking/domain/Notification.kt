@@ -7,7 +7,7 @@ data class Notification(
     val climberId: Int,
     val status: Status = Status.NEW,
     @JsonIgnore
-    val bookingIds: List<Int>? = null,
+    val bookingIds: List<Int> = emptyList(),
 ) {
     enum class Status {
         NEW,

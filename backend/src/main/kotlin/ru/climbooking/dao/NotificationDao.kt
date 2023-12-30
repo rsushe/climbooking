@@ -15,7 +15,7 @@ class NotificationDao(private val jdbcTemplate: NamedParameterJdbcTemplate) {
             "CALL create_notification(:climber_id, :booking_ids);",
             MapSqlParameterSource()
                 .addValue("climber_id", notification.climberId)
-                .addValue("booking_ids", notification.bookingIds?.toTypedArray())
+                .addValue("booking_ids", notification.bookingIds.toTypedArray())
         )
     }
 
