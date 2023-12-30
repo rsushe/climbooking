@@ -9,4 +9,6 @@ class NotificationService(private val notificationDao: NotificationDao) {
     fun create(climberId: Int, bookingIds: List<Int>) {
         notificationDao.insert(Notification(climberId = climberId, bookingIds = bookingIds))
     }
+
+    fun get(climberId: Int): List<Notification> = notificationDao.find(climberId)
 }
