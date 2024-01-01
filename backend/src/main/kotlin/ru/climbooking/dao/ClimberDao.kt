@@ -7,22 +7,20 @@ import org.springframework.transaction.annotation.Transactional
 import ru.climbooking.domain.Climber
 import ru.climbooking.domain.ClimberRequest
 import ru.climbooking.domain.SportCategory
+import java.sql.ResultSet
 import java.sql.Types
 
 @Repository
 class ClimberDao(private val jdbcTemplate: NamedParameterJdbcTemplate) {
 
     fun findAll(): List<Climber> = jdbcTemplate.query(
-        SELECT_ALL
-    ) { rs, _ ->
-        Climber(
-            rs.getInt("id"),
-            rs.getString("name"),
-            rs.getDate("birthday"),
-            SportCategory.ofStatus(rs.getString("sport_category")),
-            rs.getString("category_name")
-        )
-    }
+        FIND_ALL
+    ) { rs, _ -> rs.unmap() }
+
+    fun findAllTournamentOrganizers(tournamentId: Int): List<Climber> = jdbcTemplate.query(
+        FIND_ALL_TOURNAMENT_ORGANIZERS,
+        MapSqlParameterSource().addValue("tournament_id", tournamentId)
+    ) { rs, _ -> rs.unmap() }
 
     @Transactional
     fun insert(climber: ClimberRequest) {
@@ -37,10 +35,25 @@ class ClimberDao(private val jdbcTemplate: NamedParameterJdbcTemplate) {
     }
 
     companion object {
-        private val SELECT_ALL = """
-            select cl.id, cl.name, cl.birthday, cl.sport_category, ct.name as category_name
-            from climber cl
-            inner join category ct on cl.category_id = ct.id
+        private val FIND_ALL = """
+            SELECT cl.id, cl.name, cl.birthday, cl.sport_category, ct.name as category_name
+            FROM climber cl
+            INNER JOIN category ct on cl.category_id = ct.id
+        """.trimIndent()
+        private val FIND_ALL_TOURNAMENT_ORGANIZERS = """
+            SELECT cl.id, cl.name, cl.birthday, cl.sport_category, ct.name as category_name
+            FROM climber cl
+            INNER JOIN category ct on cl.category_id = ct.id
+            INNER JOIN tournament_organisator t on t.climber_id = cl.id
+            WHERE t.tournament_id = :tournament_id
         """.trimIndent()
     }
 }
+
+private fun ResultSet.unmap() = Climber(
+    this.getInt("id"),
+    this.getString("name"),
+    this.getDate("birthday"),
+    SportCategory.ofStatus(this.getString("sport_category")),
+    this.getString("category_name")
+)

@@ -129,7 +129,7 @@ CREATE OR REPLACE FUNCTION update_booking_if_route_rolled()
 $$
 BEGIN
     IF OLD.is_rolled IS DISTINCT FROM NEW.is_rolled AND NEW.is_rolled = TRUE THEN
-        UPDATE booking SET status = 'UNAVAILABLE_ROUTE_IS_ROLLED' WHERE status = 'ACTIVE' and route_id=NEW.id;
+        UPDATE booking SET status = 'UNAVAILABLE_ROUTE_IS_ROLLED' WHERE status = 'ACTIVE' and route_id = NEW.id;
     END IF;
     RETURN NEW;
 END;
@@ -146,7 +146,8 @@ CREATE OR REPLACE FUNCTION create_notification_route_is_rolled()
     RETURNS TRIGGER AS
 $$
 BEGIN
-    IF OLD.status IS DISTINCT FROM NEW.status AND OLD.status = 'ACTIVE' AND NEW.status = 'UNAVAILABLE_ROUTE_IS_ROLLED' THEN
+    IF OLD.status IS DISTINCT FROM NEW.status AND OLD.status = 'ACTIVE' AND
+       NEW.status = 'UNAVAILABLE_ROUTE_IS_ROLLED' THEN
         INSERT INTO Notification (climber_id, status)
         VALUES (NEW.climber_id, 'UNAVAILABLE_BECAUSE_ROUTE_IS_ROLLED');
     END IF;

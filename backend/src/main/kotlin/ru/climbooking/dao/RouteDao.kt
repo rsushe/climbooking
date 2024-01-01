@@ -9,23 +9,19 @@ import ru.climbooking.domain.Route
 import ru.climbooking.domain.RouteRequest
 import ru.climbooking.domain.RouteType
 import java.lang.IllegalArgumentException
+import java.sql.ResultSet
 
 @Repository
 class RouteDao(private val jdbcTemplate: NamedParameterJdbcTemplate) {
 
     fun findAll(): List<Route> = jdbcTemplate.query(
         FIND_ALL,
-    ) { rs, _ ->
-        Route(
-            rs.getInt("id"),
-            rs.getInt("place_id"),
-            rs.getString("name"),
-            Difficulty.ofRepresentation(rs.getString("difficulty")),
-            RouteType.ofRepresentation(rs.getString("type")),
-            rs.getDate("creation_date"),
-            rs.getBoolean("is_rolled")
-        )
-    }
+    ) { rs, _ -> rs.unmap() }
+
+    fun findAllTournamentRoutes(tournamentId: Int): List<Route> = jdbcTemplate.query(
+        FIND_ALL_TOURNAMENT_ROUTES,
+        MapSqlParameterSource().addValue("tournament_id", tournamentId)
+    ) { rs, _ -> rs.unmap() }
 
     @Transactional
     fun roll(routeId: Int) {
@@ -61,6 +57,12 @@ class RouteDao(private val jdbcTemplate: NamedParameterJdbcTemplate) {
             SELECT id, place_id, name, difficulty, type, creation_date, is_rolled
             FROM route
         """.trimIndent()
+        private val FIND_ALL_TOURNAMENT_ROUTES = """
+            SELECT id, place_id, name, difficulty, type, creation_date, is_rolled
+            FROM route
+            INNER JOIN tournament_routes tr on route.id = tr.route_id
+            WHERE tr.tournament_id = :tournament_id
+        """.trimIndent()
         private val GET_IS_ROLLED_BY_ID = """
             SELECT is_rolled
             FROM route
@@ -73,3 +75,13 @@ class RouteDao(private val jdbcTemplate: NamedParameterJdbcTemplate) {
         """.trimIndent()
     }
 }
+
+private fun ResultSet.unmap() = Route(
+    this.getInt("id"),
+    this.getInt("place_id"),
+    this.getString("name"),
+    Difficulty.ofRepresentation(this.getString("difficulty")),
+    RouteType.ofRepresentation(this.getString("type")),
+    this.getDate("creation_date"),
+    this.getBoolean("is_rolled")
+)
