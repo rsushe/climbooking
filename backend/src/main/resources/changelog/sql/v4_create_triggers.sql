@@ -110,7 +110,7 @@ CREATE OR REPLACE FUNCTION try_insert_achievement()
     RETURNS TRIGGER AS
 $$
 BEGIN
-    IF (SELECT COUNT(*) FROM route_author WHERE climber_id = NEW.climber_id) = 1 THEN
+    IF (SELECT COUNT(*) FROM route_author WHERE climber_id = NEW.climber_id) = 5 THEN
         INSERT INTO climber_achievement VALUES (NEW.climber_id, 'Большой репертуар');
     END IF;
     RETURN NEW;
