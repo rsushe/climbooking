@@ -10,6 +10,8 @@ import ru.climbooking.domain.TournamentRequest
 import ru.climbooking.domain.TournamentStatus
 import ru.climbooking.exception.EntityNotFoundException
 import java.sql.ResultSet
+import java.sql.Timestamp
+import java.sql.Types
 
 @Repository
 class TournamentDao(private val jdbcTemplate: NamedParameterJdbcTemplate) {
@@ -37,10 +39,10 @@ class TournamentDao(private val jdbcTemplate: NamedParameterJdbcTemplate) {
         "CALL create_tournament(:name, :start_date, :end_date, :status, :climber_ids, :route_ids)",
         MapSqlParameterSource()
             .addValue("name", tournament.name)
-            .addValue("start_date", tournament.startDate)
-            .addValue("end_date", tournament.endDate)
+            .addValue("start_date", Timestamp.from(tournament.startDate), Types.TIMESTAMP)
+            .addValue("end_date", Timestamp.from(tournament.endDate), Types.TIMESTAMP)
             .addValue("status", tournament.status)
-            .addValue("climber_ids", tournament.organizersIds.toTypedArray())
+            .addValue("climber_ids", tournament.organizerIds.toTypedArray())
             .addValue("route_ids", tournament.routeIds.toTypedArray())
     )
 

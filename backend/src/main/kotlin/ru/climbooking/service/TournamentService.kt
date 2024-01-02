@@ -25,7 +25,14 @@ class TournamentService(
     }
 
     fun createTournament(tournamentRequest: TournamentRequest) {
-        val overlayingTournaments = tournamentDao.findOngoingOrPlannedByRouteIds(tournamentRequest.routeIds)
+        if (tournamentRequest.organizerIds.isEmpty() || tournamentRequest.routeIds.isEmpty()) {
+            throw IllegalArgumentException("Organizers and routes cannot be empty")
+        }
+
+        val overlayingTournaments = tournamentDao.findOngoingOrPlannedByRouteIds(tournamentRequest.routeIds).filter {
+            (it.startDate >= tournamentRequest.startDate && it.startDate < tournamentRequest.endDate)
+                || (it.endDate > tournamentRequest.startDate && it.endDate <= tournamentRequest.endDate)
+        }
 
         if (overlayingTournaments.isNotEmpty()) {
             throw IllegalArgumentException("There is overlaying tournaments: $overlayingTournaments")
