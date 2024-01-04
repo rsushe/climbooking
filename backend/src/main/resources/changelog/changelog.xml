@@ -9,7 +9,8 @@
     <include file="sql/v2_create_indexes.sql" relativeToChangelogFile="true"/>
     <include file="sql/v3_create_functions.sql" relativeToChangelogFile="true"/>
     <include file="sql/v4_create_triggers.sql" relativeToChangelogFile="true"/>
-    <include file="sql/v5_create_insert_climber_function.sql" relativeToChangelogFile="true"/>
+    <include file="sql/v5_create_insert_climber_procedure.sql" relativeToChangelogFile="true"/>
     <include file="sql/v6_create_insert_route_procedure.sql" relativeToChangelogFile="true"/>
     <include file="sql/v202312271509_create_notification_procedure.sql" relativeToChangelogFile="true"/>
+    <include file="sql/v7_create_insert_tournament_procedure.sql" relativeToChangelogFile="true"/>
 </databaseChangeLog>
