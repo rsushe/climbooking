@@ -13,7 +13,7 @@
       <tr v-for="place in places" :key="place.id">
         <td>{{ place.name }}</td>
         <td>{{ place.type }}</td>
-        <td>{{ place.location }}</td>
+        <td>{{ "x: " + place.location.x + ", y: " + place.location.y }}</td>
       </tr>
       </tbody>
     </table>
