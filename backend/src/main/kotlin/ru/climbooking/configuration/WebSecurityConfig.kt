@@ -22,7 +22,7 @@ class WebSecurityConfig {
             cors {
                 configurationSource = CorsConfigurationSource {
                     val configuration = CorsConfiguration().applyPermitDefaultValues()
-                    configuration.allowedOrigins = listOf("http://127.0.0.1:5173")
+                    configuration.allowedOrigins = listOf("http://127.0.0.1:5173", "https://climbooking.vercel.app")
                     configuration.addAllowedMethod(HttpMethod.PATCH)
                     configuration
                 }
