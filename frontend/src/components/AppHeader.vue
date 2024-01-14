@@ -6,6 +6,7 @@
         <li><router-link to="/tournaments">Турниры</router-link></li>
         <li><router-link to="/climbers">Скалолазы</router-link></li>
         <li><router-link to="/bookings">Букинги</router-link></li>
+        <li><router-link to="/notifications">Нотификации</router-link></li>
       </ul>
     </nav>
   </header>

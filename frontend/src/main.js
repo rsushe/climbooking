@@ -5,6 +5,7 @@ import TrainingPlaces from './components/TrainingPlaces.vue';
 import Tournaments from './components/Tournaments.vue';
 import Climbers from './components/Climbers.vue';
 import Bookings from '@/components/Bookings.vue';
+import Notifications from '@/components/Notifications.vue';
 
 const routes = [
     {
@@ -26,6 +27,10 @@ const routes = [
     {
         path: '/bookings',
         component: Bookings
+    },
+    {
+        path: '/notifications',
+        component: Notifications
     }
 ];
 
