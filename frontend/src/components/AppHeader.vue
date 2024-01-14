@@ -5,6 +5,7 @@
         <li><router-link to="/training-places">Места для тренировок</router-link></li>
         <li><router-link to="/tournaments">Турниры</router-link></li>
         <li><router-link to="/climbers">Скалолазы</router-link></li>
+        <li><router-link to="/bookings">Букинги</router-link></li>
       </ul>
     </nav>
   </header>

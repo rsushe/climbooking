@@ -14,12 +14,15 @@ data class Booking @JsonCreator constructor(
 ) {
     fun active(): Booking = this.copy(status = Status.ACTIVE)
 
-    enum class Status {
-        NEW,
-        UNAVAILABLE_DUE_TO_TOURNAMENT,
-        CANCELLED,
-        UNAVAILABLE_ROUTE_IS_ROLLED,
-        ACTIVE,
-        TOURNAMENT
+    enum class Status(
+        private val cancellationAvailable: Boolean
+    ) {
+        NEW(false),
+        UNAVAILABLE_DUE_TO_TOURNAMENT(false),
+        CANCELLED(false),
+        UNAVAILABLE_ROUTE_IS_ROLLED(false),
+        ACTIVE(true),
+        TOURNAMENT(true),
+        FINISHED(false);
     }
 }

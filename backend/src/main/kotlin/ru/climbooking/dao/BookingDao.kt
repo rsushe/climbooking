@@ -51,6 +51,15 @@ class BookingDao(private val jdbcTemplate: NamedParameterJdbcTemplate) {
         MapSqlParameterSource().addValue("route_id", routeId)
     ) { rs: ResultSet, _: Int -> rs.unmap() }
 
+    fun findActive(climberId: Int): List<Booking> = jdbcTemplate.query(
+        """
+            SELECT id, climber_id, route_id, status, start_time, end_time 
+            FROM booking
+            WHERE status in ('ACTIVE') and climber_id = :climber_id;
+        """.trimIndent(),
+        MapSqlParameterSource().addValue("climber_id", climberId)
+    ) { rs: ResultSet, _: Int -> rs.unmap() }
+
     companion object {
         private const val CALL_INSERT = "SELECT add_booking(:climber_id, :route_id, :status, :start_time, :end_time);"
         private val FIND_ALL = """

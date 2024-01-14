@@ -34,7 +34,7 @@ class BookingController(private val bookingService: BookingService) {
         return bookingService.getActive(routeId).toDto()
     }
 
-    @PostMapping("/v1/bookings/{id}/cancelation")
+    @PostMapping("/v1/bookings/{id}/cancellation")
     fun cancelBooking(@PathVariable("id") bookingId: Int) {
         bookingService.cancel(bookingId)
     }
