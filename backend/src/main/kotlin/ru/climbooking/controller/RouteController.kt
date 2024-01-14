@@ -13,7 +13,10 @@ import ru.climbooking.domain.RouteRequest
 @RestController
 class RouteController(val routeDao: RouteDao) {
     @GetMapping("/v1/routes")
-    fun getAllRoutes(): List<Route> = routeDao.findAll()
+    fun getAllRoutes(): List<Route> = routeDao.findAll().sortedBy { it.id }
+
+    @GetMapping("/v1/routes/{routeId}")
+    fun getRouteById(@PathVariable("routeId") routeId: Int): Route = routeDao.findById(routeId)
 
     @PostMapping("/v1/routes")
     fun addRoute(@RequestBody routeRequest: RouteRequest) = routeDao.insert(routeRequest)

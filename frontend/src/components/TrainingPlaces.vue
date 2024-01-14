@@ -1,19 +1,21 @@
 <template>
-  <div>
-    <h1>Места для тренировок</h1>
+  <div class="container">
+    <h1 style="text-align: center;">Training places</h1>
     <table>
       <thead>
       <tr>
-        <th>Название</th>
-        <th>Тип</th>
-        <th>Местоположение</th>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Location</th>
       </tr>
       </thead>
       <tbody>
       <tr v-for="place in places" :key="place.id">
+        <td>{{ place.id }}</td>
         <td>{{ place.name }}</td>
         <td>{{ place.type }}</td>
-        <td>{{ "x: " + place.location.x + ", y: " + place.location.y }}</td>
+        <td>{{ 'x: ' + place.location.x + ', y: ' + place.location.y }}</td>
       </tr>
       </tbody>
     </table>
@@ -21,7 +23,7 @@
 </template>
 
 <script>
-import axios from 'axios'
+import axios from 'axios';
 
 export default {
   data() {
@@ -34,29 +36,38 @@ export default {
   },
   methods: {
     async fetchPlaces() {
-      try {
-        const response = await axios.get('http://localhost:8080/v1/places');
-        this.places = response.data;
-      } catch (error) {
-        console.log(error);
-        // Обработка ошибок или отображение сообщения об ошибке
-        // Например: this.error = 'Ошибка загрузки данных.'
-      }
+      axios.get('http://localhost:8080/v1/places')
+          .then(response => {
+            this.places = response.data;
+          })
+          .catch(error => {
+            console.error('There was an error fetching the training places:', error);
+          });
     }
   }
-}
+};
 </script>
 
 <style scoped>
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  max-width: 1000px;
+  margin: auto;
+  padding: 20px;
+}
+
 table {
   width: 100%;
   border-collapse: collapse;
+  margin-top: 20px;
 }
 
 th, td {
-  padding: 8px;
-  text-align: left;
   border: 1px solid #ddd;
+  padding: 10px;
+  text-align: left;
 }
 
 th {

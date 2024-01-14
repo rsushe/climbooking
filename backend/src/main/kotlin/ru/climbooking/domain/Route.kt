@@ -6,7 +6,7 @@ data class Route(
     val id: Int,
     val placeId: Int,
     val name: String,
-    val difficulty: Difficulty,
+    val difficulty: String,
     val type: RouteType,
     val creationDate: Date,
     val isRolled: Boolean

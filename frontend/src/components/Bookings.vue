@@ -1,4 +1,3 @@
-vue
 <template>
   <div class="container">
     <h2 style="text-align: center;">All Bookings</h2>
