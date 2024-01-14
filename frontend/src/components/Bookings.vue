@@ -15,7 +15,7 @@ vue
       </tr>
       </thead>
       <tbody>
-      <tr v-for="booking in bookings" :key="booking.id">
+      <tr v-for="booking in paginatedBookings" :key="booking.id">
         <td>{{ booking.id }}</td>
         <td>{{ booking.climberId }}</td>
         <td>{{ booking.routeId }}</td>
@@ -28,6 +28,12 @@ vue
       </tr>
       </tbody>
     </table>
+    <pagination
+        :currentPage="currentPage"
+        :totalPages="totalPages"
+        :nextPage="nextPage"
+        :prevPage="prevPage"
+    ></pagination>
     <h2>Enter Climber ID to view active bookings:</h2>
     <div class="climberBookings">
       <input type="number" v-model="inputClimberId">
@@ -68,15 +74,34 @@ vue
 
 <script>
 import axios from 'axios';
+import Pagination from './UI/Pagination.vue';
 
 export default {
+  components: {
+    Pagination,
+  },
   data() {
     return {
       bookings: [],
       climberId: null, // Assuming you know the current climber ID
       inputClimberId: null,
       activeBookingsForClimber: [],
+      currentPage: 1,
+      itemsPerPage: 5,
     };
+  },
+  computed: {
+    totalBookings() {
+      return this.bookings.length;
+    },
+    totalPages() {
+      return Math.ceil(this.totalBookings / this.itemsPerPage);
+    },
+    paginatedBookings() {
+      const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+      const endIndex = startIndex + this.itemsPerPage;
+      return this.bookings.slice(startIndex, endIndex);
+    },
   },
   created() {
     this.fetchBookings();
@@ -125,7 +150,16 @@ export default {
         this.activeBookingsForClimber = [];
       }
     },
-
+    nextPage() {
+      if (this.currentPage < this.totalPages) {
+        this.currentPage++;
+      }
+    },
+    prevPage() {
+      if (this.currentPage > 1) {
+        this.currentPage--;
+      }
+    },
   },
 };
 </script>
