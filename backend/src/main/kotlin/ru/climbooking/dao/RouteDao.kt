@@ -27,6 +27,10 @@ class RouteDao(private val jdbcTemplate: NamedParameterJdbcTemplate) {
         MapSqlParameterSource().addValue("tournament_id", tournamentId)
     ) { rs, _ -> rs.unmap() }
 
+    fun findAllRouteDifficulties(): List<String> = jdbcTemplate.query(
+        FIND_ALL_ROUTE_DIFFICULTIES
+    ) { rs, _ -> rs.getString("difficulty") }
+
     @Transactional
     fun roll(routeId: Int) {
         if (isRouteRolled(routeId)) {
@@ -71,6 +75,9 @@ class RouteDao(private val jdbcTemplate: NamedParameterJdbcTemplate) {
             FROM route
             INNER JOIN tournament_routes tr on route.id = tr.route_id
             WHERE tr.tournament_id = :tournament_id
+        """.trimIndent()
+        private val FIND_ALL_ROUTE_DIFFICULTIES = """
+            SELECT unnest(enum_range(NULL::difficulty_enum)) AS difficulty
         """.trimIndent()
         private val GET_IS_ROLLED_BY_ID = """
             SELECT is_rolled

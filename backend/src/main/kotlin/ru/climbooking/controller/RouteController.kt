@@ -18,6 +18,9 @@ class RouteController(val routeDao: RouteDao) {
     @GetMapping("/v1/routes/{routeId}")
     fun getRouteById(@PathVariable("routeId") routeId: Int): Route = routeDao.findById(routeId)
 
+    @GetMapping("/v1/routes/difficulties")
+    fun getAllRoutesDifficulties(): List<String> = routeDao.findAllRouteDifficulties()
+
     @PostMapping("/v1/routes")
     fun addRoute(@RequestBody routeRequest: RouteRequest) = routeDao.insert(routeRequest)
 
