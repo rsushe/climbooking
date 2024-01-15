@@ -4,7 +4,6 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate
 import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
-import ru.climbooking.domain.Difficulty
 import ru.climbooking.domain.Route
 import ru.climbooking.domain.RouteRequest
 import ru.climbooking.domain.RouteType
@@ -18,10 +17,19 @@ class RouteDao(private val jdbcTemplate: NamedParameterJdbcTemplate) {
         FIND_ALL,
     ) { rs, _ -> rs.unmap() }
 
+    fun findById(routeId: Int): Route = jdbcTemplate.queryForObject(
+        FIND_BY_ID,
+        MapSqlParameterSource().addValue("route_id", routeId)
+    ) { rs, _ -> rs.unmap() }!!
+
     fun findAllTournamentRoutes(tournamentId: Int): List<Route> = jdbcTemplate.query(
         FIND_ALL_TOURNAMENT_ROUTES,
         MapSqlParameterSource().addValue("tournament_id", tournamentId)
     ) { rs, _ -> rs.unmap() }
+
+    fun findAllRouteDifficulties(): List<String> = jdbcTemplate.query(
+        FIND_ALL_ROUTE_DIFFICULTIES
+    ) { rs, _ -> rs.getString("difficulty") }
 
     @Transactional
     fun roll(routeId: Int) {
@@ -57,11 +65,19 @@ class RouteDao(private val jdbcTemplate: NamedParameterJdbcTemplate) {
             SELECT id, place_id, name, difficulty, type, creation_date, is_rolled
             FROM route
         """.trimIndent()
+        private val FIND_BY_ID = """
+            SELECT id, place_id, name, difficulty, type, creation_date, is_rolled
+            FROM route
+            WHERE id = :route_id
+        """.trimIndent()
         private val FIND_ALL_TOURNAMENT_ROUTES = """
             SELECT id, place_id, name, difficulty, type, creation_date, is_rolled
             FROM route
             INNER JOIN tournament_routes tr on route.id = tr.route_id
             WHERE tr.tournament_id = :tournament_id
+        """.trimIndent()
+        private val FIND_ALL_ROUTE_DIFFICULTIES = """
+            SELECT unnest(enum_range(NULL::difficulty_enum)) AS difficulty
         """.trimIndent()
         private val GET_IS_ROLLED_BY_ID = """
             SELECT is_rolled
@@ -80,7 +96,7 @@ private fun ResultSet.unmap() = Route(
     this.getInt("id"),
     this.getInt("place_id"),
     this.getString("name"),
-    Difficulty.ofRepresentation(this.getString("difficulty")),
+    this.getString("difficulty"),
     RouteType.ofRepresentation(this.getString("type")),
     this.getDate("creation_date"),
     this.getBoolean("is_rolled")

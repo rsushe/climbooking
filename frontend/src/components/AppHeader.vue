@@ -2,11 +2,11 @@
   <header>
     <nav>
       <ul class="menu">
-        <li><router-link to="/training-places">Места для тренировок</router-link></li>
-        <li><router-link to="/tournaments">Турниры</router-link></li>
-        <li><router-link to="/climbers">Скалолазы</router-link></li>
-        <li><router-link to="/bookings">Букинги</router-link></li>
-        <li><router-link to="/notifications">Нотификации</router-link></li>
+        <li><router-link to="/training-places">Training places</router-link></li>
+        <li><router-link to="/tournaments">Tournaments</router-link></li>
+        <li><router-link to="/climbers">Climbers</router-link></li>
+        <li><router-link to="/bookings">Bookings</router-link></li>
+        <li><router-link to="/routes">Routes</router-link></li>
       </ul>
     </nav>
   </header>

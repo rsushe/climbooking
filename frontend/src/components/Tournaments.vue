@@ -285,17 +285,4 @@ input, select {
   padding: 8px;
   box-sizing: border-box;
 }
-
-button {
-  margin-top: 15px;
-  background-color: #4CAF50;
-  color: white;
-  border: none;
-  padding: 8px 12px;
-  cursor: pointer;
-}
-
-button:hover {
-  background-color: #45a049;
-}
 </style>

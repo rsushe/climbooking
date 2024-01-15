@@ -6,6 +6,7 @@ import Tournaments from './components/Tournaments.vue';
 import Climbers from './components/Climbers.vue';
 import Bookings from '@/components/Bookings.vue';
 import Notifications from '@/components/Notifications.vue';
+import Routes from '@/components/Routes.vue';
 
 const routes = [
     {
@@ -31,6 +32,10 @@ const routes = [
     {
         path: '/notifications',
         component: Notifications
+    },
+    {
+        path: '/routes',
+        component: Routes
     }
 ];
 
