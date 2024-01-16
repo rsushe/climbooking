@@ -78,16 +78,54 @@
 
         <button type="submit">Create Tournament</button>
       </form>
+
+      <div v-if="showSuccessMessage" class="message success">
+        Success!
+      </div>
+
+      <div v-if="showErrorMessage" class="message error">
+        Error :(
+      </div>
+    </div>
+    <div class="tournaments-table-container" v-if="showOverlayingTournaments">
+      <h2>Overlaying tournaments</h2>
+      <table>
+        <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Start Date</th>
+          <th>End Date</th>
+          <th>Status</th>
+          <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-for="tournament in overlayingTournaments" :key="tournament.id">
+          <td>{{ tournament.id }}</td>
+          <td>{{ tournament.name }}</td>
+          <td>{{ new Date(tournament.startDate).toLocaleDateString() }}</td>
+          <td>{{ new Date(tournament.endDate).toLocaleDateString() }}</td>
+          <td>{{ tournament.status }}</td>
+          <td>
+            <button @click="fetchTournamentDetails(tournament.id)">View Details</button>
+          </td>
+        </tr>
+        </tbody>
+      </table>
     </div>
   </div>
 </template>
 
 <script>
 
+import {HttpStatusCode} from 'axios';
+
 export default {
   data() {
     return {
       tournaments: [],
+      overlayingTournaments: [],
       selectedTournament: null,
       newTournament: {
         name: '',
@@ -98,6 +136,9 @@ export default {
       },
       allOrganizers: [],
       allRoutes: [],
+      showSuccessMessage: false,
+      showErrorMessage: false,
+      showOverlayingTournaments: false,
     };
   },
   created() {
@@ -160,12 +201,29 @@ export default {
               organizerIds: [],
               routeIds: [],
             };
+
+            this.showSuccessMessage = true;
+            this.hideMessageAfterDelay('showSuccessMessage');
+
             console.log('Tournament created successfully:', response.data);
             this.fetchTournaments();
           })
           .catch(error => {
+            this.showErrorMessage = true;
+            this.hideMessageAfterDelay('showErrorMessage');
+
+            if (error.response.status === HttpStatusCode.Conflict) {
+              this.showOverlayingTournaments = true;
+              this.overlayingTournaments = error.response.data;
+            }
+
             console.error('Error creating tournament:', error);
           });
+    },
+    hideMessageAfterDelay(messageType) {
+      setTimeout(() => {
+        this[messageType] = false;
+      }, 3000);
     },
   },
 };
@@ -284,5 +342,21 @@ input, select {
   width: 100%;
   padding: 8px;
   box-sizing: border-box;
+}
+
+.message {
+  padding: 10px;
+  margin-top: 10px;
+  color: #fff;
+  border-radius: 5px;
+  text-align: center;
+}
+
+.success {
+  background-color: #4CAF50; /* Зеленый цвет для успеха */
+}
+
+.error {
+  background-color: #F44336; /* Красный цвет для ошибки */
 }
 </style>
