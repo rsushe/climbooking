@@ -27,7 +27,6 @@
 </template>
 
 <script>
-import axios from 'axios';
 
 export default {
   data() {
@@ -42,7 +41,8 @@ export default {
   },
   methods: {
     fetchAchievements() {
-      axios.get('http://localhost:8080/v1/achievements')
+      console.log(this.$axios)
+      this.$axios.get('/v1/achievements')
           .then(response => {
             this.achievements = response.data;
           })

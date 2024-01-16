@@ -23,7 +23,6 @@
 </template>
 
 <script>
-import axios from 'axios';
 
 export default {
   data() {
@@ -36,7 +35,7 @@ export default {
   },
   methods: {
     async fetchPlaces() {
-      axios.get('http://localhost:8080/v1/places')
+      this.$axios.get('/v1/places')
           .then(response => {
             this.places = response.data;
           })

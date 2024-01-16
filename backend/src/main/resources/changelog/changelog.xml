@@ -13,4 +13,5 @@
     <include file="sql/v6_create_insert_route_procedure.sql" relativeToChangelogFile="true"/>
     <include file="sql/v202312271509_create_notification_procedure.sql" relativeToChangelogFile="true"/>
     <include file="sql/v7_create_insert_tournament_procedure.sql" relativeToChangelogFile="true"/>
+    <include file="sql/v20240152326_change_procedure_for_climber_creating.sql" relativeToChangelogFile="true"/>
 </databaseChangeLog>

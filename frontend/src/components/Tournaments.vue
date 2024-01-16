@@ -83,7 +83,6 @@
 </template>
 
 <script>
-import axios from 'axios';
 
 export default {
   data() {
@@ -108,7 +107,7 @@ export default {
   },
   methods: {
     fetchTournaments() {
-      axios.get('http://localhost:8080/v1/tournaments')
+      this.$axios.get('/v1/tournaments')
           .then(response => {
             this.tournaments = response.data;
           })
@@ -117,7 +116,7 @@ export default {
           });
     },
     fetchTournamentDetails(tournamentId) {
-      axios.get(`http://localhost:8080/v1/tournaments/${tournamentId}`)
+      this.$axios.get(`/v1/tournaments/${tournamentId}`)
           .then(response => {
             this.selectedTournament = response.data;
           })
@@ -129,7 +128,7 @@ export default {
       this.selectedTournament = null;
     },
     fetchOrganizers() {
-      axios.get('http://localhost:8080/v1/climbers')
+      this.$axios.get('/v1/climbers')
           .then(response => {
             this.allOrganizers = response.data;
           })
@@ -139,7 +138,7 @@ export default {
     },
 
     fetchRoutes() {
-      axios.get('http://localhost:8080/v1/routes')
+      this.$axios.get('/v1/routes')
           .then(response => {
             this.allRoutes = response.data;
           })
@@ -152,7 +151,7 @@ export default {
       this.newTournament.startDate = new Date(this.newTournament.startDate).toISOString();
       this.newTournament.endDate = new Date(this.newTournament.endDate).toISOString();
 
-      axios.post('http://localhost:8080/v1/tournaments', this.newTournament)
+      this.$axios.post('/v1/tournaments', this.newTournament)
           .then(response => {
             this.newTournament = {
               name: '',
@@ -162,6 +161,7 @@ export default {
               routeIds: [],
             };
             console.log('Tournament created successfully:', response.data);
+            this.fetchTournaments();
           })
           .catch(error => {
             console.error('Error creating tournament:', error);

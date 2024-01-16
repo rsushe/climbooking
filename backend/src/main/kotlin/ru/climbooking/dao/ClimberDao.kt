@@ -6,7 +6,6 @@ import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
 import ru.climbooking.domain.Climber
 import ru.climbooking.domain.ClimberRequest
-import ru.climbooking.domain.SportCategory
 import java.sql.ResultSet
 import java.sql.Types
 
@@ -25,12 +24,11 @@ class ClimberDao(private val jdbcTemplate: NamedParameterJdbcTemplate) {
     @Transactional
     fun insert(climber: ClimberRequest) {
         jdbcTemplate.update(
-            "CALL add_climber(:climber_name, :birthday, :sport_category, :category_id);",
+            "CALL add_climber(:climber_name, :birthday, :category_id);",
             MapSqlParameterSource()
                 .addValue("climber_name", climber.name)
                 .addValue("birthday", climber.birthday, Types.DATE)
-                .addValue("sport_category", climber.category)
-                .addValue("category_id", climber.categoryId.toInt())
+                .addValue("category_id", climber.categoryId)
         )
     }
 
@@ -54,6 +52,5 @@ private fun ResultSet.unmap() = Climber(
     this.getInt("id"),
     this.getString("name"),
     this.getDate("birthday"),
-    SportCategory.ofStatus(this.getString("sport_category")),
     this.getString("category_name")
 )

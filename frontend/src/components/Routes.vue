@@ -155,7 +155,7 @@
 </template>
 
 <script>
-import axios, {HttpStatusCode} from 'axios';
+import {HttpStatusCode} from 'axios';
 import Pagination from '@/components/UI/Pagination.vue';
 
 export default {
@@ -213,7 +213,7 @@ export default {
   },
   methods: {
     async fetchRoutes() {
-      axios.get('http://localhost:8080/v1/routes')
+      this.$axios.get('/v1/routes')
           .then(response => {
             this.routes = response.data;
           })
@@ -222,7 +222,7 @@ export default {
           });
     },
     async fetchPlaces() {
-      axios.get('http://localhost:8080/v1/places')
+      this.$axios.get('/v1/places')
           .then(response => {
             this.places = response.data;
           })
@@ -231,7 +231,7 @@ export default {
           });
     },
     async fetchClimbers() {
-      axios.get('http://localhost:8080/v1/climbers')
+      this.$axios.get('/v1/climbers')
           .then(response => {
             this.climbers = response.data;
           })
@@ -240,7 +240,7 @@ export default {
           });
     },
     async fetchDifficulties() {
-      axios.get('http://localhost:8080/v1/routes/difficulties')
+      this.$axios.get('/v1/routes/difficulties')
           .then(response => {
             this.difficulties = response.data;
           })
@@ -251,7 +251,7 @@ export default {
     addRoute() {
       console.log('Добавление маршрута:', this.newRoute);
 
-      axios.post('http://localhost:8080/v1/routes', this.newRoute)
+      this.$axios.post('/v1/routes', this.newRoute)
           .then(_ => {
 
             this.newRoute = {
@@ -276,9 +276,9 @@ export default {
           });
     },
     rollRoute(routeId) {
-      axios.patch('http://localhost:8080/v1/routes/' + routeId + '/roll')
+      this.$axios.patch('/v1/routes/' + routeId + '/roll')
           .then(_ => {
-            axios.get('http://localhost:8080/v1/routes/' + routeId).then(response => {
+            this.$axios.get('/v1/routes/' + routeId).then(response => {
               let serverRoute = response.data;
               let route = this.routes.find(r => r.id === routeId);
               route.isRolled = serverRoute.isRolled;
@@ -290,7 +290,7 @@ export default {
 
     },
     bookRoute() {
-      axios.post('http://localhost:8080/v1/bookings', {
+      this.$axios.post('/v1/bookings', {
         climberId: this.newBook.climberId,
         routeId: this.newBook.routeId,
         startTime: new Date(this.newBook.startTime).toISOString(),
@@ -335,7 +335,7 @@ export default {
     },
     subscribeClimberToOverlayingBookings() {
       let bookingIds = this.overlayingBookings.map(it => it.id);
-      axios.post(`http://localhost:8080/v1/notifications?climberId=${this.newBook.climberId}&bookingIds=${bookingIds}`)
+      this.$axios.post(`/v1/notifications?climberId=${this.newBook.climberId}&bookingIds=${bookingIds}`)
           .then(_ => {
             this.cancel();
           })
