@@ -6,3 +6,11 @@ spring:
     password: d22-QqU-pqJ-fFd
   liquibase:
     change-log: changelog/changelog.xml
+
+server:
+  ssl:
+    key-store: classpath:springboot.p12
+    key-store-password: password
+    key-store-type: pkcs12
+    key-alias: springboot
+    key-password: password
