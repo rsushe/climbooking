@@ -6,5 +6,6 @@ data class Place(
     val id: Int,
     val name: String,
     val type: String,
-    val location: PGpoint
+    val location: PGpoint,
+
 )

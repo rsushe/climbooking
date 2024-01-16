@@ -8,6 +8,7 @@
         <th>Name</th>
         <th>Type</th>
         <th>Location</th>
+<!--        <th>Routes</th>-->
       </tr>
       </thead>
       <tbody>
@@ -16,6 +17,13 @@
         <td>{{ place.name }}</td>
         <td>{{ place.type }}</td>
         <td>{{ 'x: ' + place.location.x + ', y: ' + place.location.y }}</td>
+<!--        <td>-->
+<!--          <div>-->
+<!--            <ul>-->
+<!--              <li v-for="routeName in place.routesNames" :key="routeName">{{ routeName }}</li>-->
+<!--            </ul>-->
+<!--          </div>-->
+<!--        </td>-->
       </tr>
       </tbody>
     </table>

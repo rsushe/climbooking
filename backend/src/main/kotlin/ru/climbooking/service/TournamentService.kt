@@ -24,7 +24,7 @@ class TournamentService(
         return tournament
     }
 
-    fun createTournament(tournamentRequest: TournamentRequest) {
+    fun createTournament(tournamentRequest: TournamentRequest): List<Tournament> {
         if (tournamentRequest.organizerIds.isEmpty() || tournamentRequest.routeIds.isEmpty()) {
             throw IllegalArgumentException("Organizers and routes cannot be empty")
         }
@@ -35,9 +35,10 @@ class TournamentService(
         }
 
         if (overlayingTournaments.isNotEmpty()) {
-            throw IllegalArgumentException("There is overlaying tournaments: $overlayingTournaments")
+            return overlayingTournaments
         }
 
         tournamentDao.insert(tournamentRequest)
+        return listOf()
     }
 }
