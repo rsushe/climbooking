@@ -162,6 +162,7 @@ export default {
               routeIds: [],
             };
             console.log('Tournament created successfully:', response.data);
+            this.fetchTournaments();
           })
           .catch(error => {
             console.error('Error creating tournament:', error);
