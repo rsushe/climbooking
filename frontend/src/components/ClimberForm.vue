@@ -26,7 +26,6 @@
 </template>
 
 <script>
-import axios from 'axios';
 
 export default {
   data() {
@@ -45,7 +44,7 @@ export default {
   },
   methods: {
     fetchCategories() {
-      axios.get('http://localhost:8080/v1/categories')
+      this.$axios.get('/v1/categories')
           .then(response => {
             this.categories = response.data;
           })
@@ -57,7 +56,7 @@ export default {
       // Convert birthday to ISO format
       this.newClimber.birthday = new Date(this.newClimber.birthday).toISOString();
 
-      axios.post('http://localhost:8080/v1/climbers', {
+      this.$axios.post('/v1/climbers', {
         name: this.newClimber.name,
         birthday: this.newClimber.birthday,
         category_id: this.newClimber.category,

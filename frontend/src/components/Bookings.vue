@@ -72,7 +72,6 @@
 </template>
 
 <script>
-import axios from 'axios';
 import Pagination from './UI/Pagination.vue';
 
 export default {
@@ -107,7 +106,7 @@ export default {
   },
   methods: {
     fetchBookings() {
-      axios.get('http://localhost:8080/v1/bookings')
+      this.$axios.get('/v1/bookings')
           .then(response => {
             this.bookings = response.data.bookings;
           })
@@ -116,7 +115,7 @@ export default {
           });
     },
     cancelBooking(bookingId) {
-      axios.post(`http://localhost:8080/v1/bookings/${bookingId}/cancellation`)
+      this.$axios.post(`/v1/bookings/${bookingId}/cancellation`)
           .then(() => {
             this.updateBookingStatus(bookingId, 'CANCELLED');
           })
@@ -136,7 +135,7 @@ export default {
     fetchActiveBookingsForClimber() {
       if (this.inputClimberId) {
         this.climberId = parseInt(this.inputClimberId, 10);
-        axios.get(`http://localhost:8080/v1/climbers/${this.climberId}/bookings/active`)
+        this.$axios.get(`/v1/climbers/${this.climberId}/bookings/active`)
             .then(response => {
               this.activeBookingsForClimber = response.data;
             })

@@ -28,7 +28,6 @@
 </template>
 
 <script>
-import axios from 'axios';
 
 export default {
   data() {
@@ -40,7 +39,7 @@ export default {
   methods: {
     fetchNotificationsForClimber() {
       if (this.inputClimberId) {
-        axios.get(`http://localhost:8080/v1/notifications?climberId=${this.inputClimberId}`)
+        this.$axios.get(`/v1/notifications?climberId=${this.inputClimberId}`)
             .then(response => {
               this.notifications = response.data.notifications;
             })

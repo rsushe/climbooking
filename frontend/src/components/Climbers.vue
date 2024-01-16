@@ -8,7 +8,6 @@
 <script>
 import ClimberForm from './ClimberForm.vue'; // Adjust the path
 import ClimberTable from './ClimberTable.vue'; // Adjust the path
-import axios from 'axios';
 
 export default {
   components: {
@@ -22,7 +21,7 @@ export default {
   },
   methods: {
     fetchClimbers() {
-      axios.get('http://localhost:8080/v1/climbers')
+      this.$axios.get('/v1/climbers')
           .then(response => {
             this.climbers = response.data;
           })
