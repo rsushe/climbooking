@@ -21,13 +21,14 @@ class NotificationDao(private val jdbcTemplate: NamedParameterJdbcTemplate) {
 
     fun find(climberId: Int): List<Notification> =
         jdbcTemplate.query(
-            "SELECT id, climber_id, status FROM notification WHERE climber_id = :climber_id;",
+            "SELECT id, climber_id, status, route_id FROM notification WHERE climber_id = :climber_id;",
             MapSqlParameterSource().addValue("climber_id", climberId)
         ) { rs: ResultSet, _: Int ->
             Notification(
                 rs.getInt("id"),
                 rs.getInt("climber_id"),
                 Notification.Status.valueOf(rs.getString("status")),
+                if (rs.getInt("route_id") == 0) null else rs.getInt("route_id")
             )
         }
 }

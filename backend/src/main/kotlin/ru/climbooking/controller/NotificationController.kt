@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.RequestParam
 import org.springframework.web.bind.annotation.RestController
 import ru.climbooking.domain.Notification
 import ru.climbooking.service.NotificationService
-import java.lang.IllegalArgumentException
 
 @RestController
 class NotificationController(private val notificationService: NotificationService) {

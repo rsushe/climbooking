@@ -13,6 +13,7 @@
           <th>ID</th>
           <th>Climber ID</th>
           <th>Status</th>
+          <th>RouteId</th>
         </tr>
         </thead>
         <tbody>
@@ -20,6 +21,7 @@
           <td>{{ notification.id }}</td>
           <td>{{ notification.climberId }}</td>
           <td>{{ notification.status }}</td>
+          <td>{{ notification.routeId }}</td>
         </tr>
         </tbody>
       </table>
