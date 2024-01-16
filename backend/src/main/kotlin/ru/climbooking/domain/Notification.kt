@@ -6,6 +6,7 @@ data class Notification(
     val id: Int? = null,
     val climberId: Int,
     val status: Status = Status.NEW,
+    var routeId: Int? = null,
     @JsonIgnore
     val bookingIds: List<Int> = emptyList(),
 ) {
