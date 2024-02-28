@@ -25,8 +25,8 @@ class TournamentDao(private val jdbcTemplate: NamedParameterJdbcTemplate) {
             FIND_BY_ID,
             MapSqlParameterSource().addValue("tournament_id", tournamentId)
         ) { rs, _ -> rs.unmap() }!!
-    } catch (emptyResultDataAccessException: EmptyResultDataAccessException) {
-        throw EntityNotFoundException("Tournament with id $tournamentId does not exist", emptyResultDataAccessException)
+    } catch (e: EmptyResultDataAccessException) {
+        throw EntityNotFoundException("Tournament with id $tournamentId does not exist", e)
     }
 
     fun findOngoingOrPlannedByRouteIds(routeIds: List<Int>): List<Tournament> = jdbcTemplate.query(

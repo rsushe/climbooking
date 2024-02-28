@@ -6,3 +6,8 @@ spring:
     password: d22-QqU-pqJ-fFd
   liquibase:
     change-log: changelog/changelog.xml
+
+rsa:
+  public-key: classpath:certs/public.pem
+  private-key: classpath:certs/private.pem
+

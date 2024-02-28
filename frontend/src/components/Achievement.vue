@@ -16,7 +16,7 @@
         <td>
           <div>
             <ul>
-              <li v-for="ownerName in achievement.ownersNames" :key="ownerName">{{ ownerName }}</li>
+              <li v-for="ownerName in achievement.ownerNames" :key="ownerName">{{ ownerName }}</li>
             </ul>
           </div>
         </td>
@@ -45,6 +45,7 @@ export default {
       this.$axios.get('/v1/achievements')
           .then(response => {
             this.achievements = response.data;
+            console.log(this.achievements)
           })
           .catch(error => {
             console.error('There was an error fetching the achievements: ', error);
