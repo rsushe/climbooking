@@ -9,6 +9,8 @@ import Notifications from '@/components/Notifications.vue';
 import Routes from '@/components/Routes.vue';
 import Achievement from '@/components/Achievement.vue';
 import axios from 'axios';
+import RegisterForm from "@/components/RegisterForm.vue";
+import LoginForm from "@/components/LoginForm.vue";
 
 const routes = [
     {
@@ -42,6 +44,14 @@ const routes = [
     {
         path: '/achievement',
         component: Achievement
+    },
+    {
+        path: '/register',
+        component: RegisterForm
+    },
+    {
+        path: '/login',
+        component: LoginForm
     }
 ];
 

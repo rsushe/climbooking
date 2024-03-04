@@ -9,6 +9,8 @@
         <li><router-link to="/routes">Routes</router-link></li>
         <li><router-link to="/achievement">Achievement</router-link></li>
         <li><router-link to="/notifications">Notifications</router-link></li>
+        <li><router-link to="/register">Register</router-link></li>
+        <li><router-link to="/login">Login</router-link></li>
       </ul>
     </nav>
   </header>

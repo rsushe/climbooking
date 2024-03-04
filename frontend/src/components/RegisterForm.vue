@@ -16,6 +16,8 @@
         </option>
       </select>
       <button type="submit">Register</button>
+      <div v-if="registrationSuccess" class="message success">Registration Successful!</div>
+      <div v-if="errorMessage" class="message error">{{ errorMessage }}</div>
     </form>
   </div>
 </template>
@@ -27,6 +29,8 @@ export default {
       username: '',
       password: '',
       role: '',
+      registrationSuccess: false,
+      errorMessage: '',
     };
   },
   methods: {
@@ -38,8 +42,12 @@ export default {
           role: this.role,
         });
         console.log('Registration successful', response);
+        this.registrationSuccess = true;
+        this.errorMessage = '';
       } catch (error) {
         console.log('Registration failed', error);
+        this.registrationSuccess = false;
+        this.errorMessage = error.response.data.message || 'Registration failed';
       }
     }
   }
@@ -47,5 +55,41 @@ export default {
 </script>
 
 <style scoped>
+.register-form h2 {
+  text-align: center;
+  padding: 10px;
+  border: 2px solid #4CAF50;
+  width: fit-content;
+  margin: 0 auto;
+}
+
+.register-form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+}
+
+
+.register-form button {
+  cursor: pointer;
+  background-color: #4CAF50;
+  color: white;
+  border: none;
+  padding: 10px;
+  margin-top: 10px;
+}
+
+.register-form input,
+.register-form select {
+  margin: 10px 0;
+  padding: 8px;
+  width: 90%;
+  box-sizing: border-box;
+}
+
+.message.success {
+  color: green;
+}
 
 </style>
