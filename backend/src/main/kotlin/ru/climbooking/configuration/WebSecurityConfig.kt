@@ -40,8 +40,7 @@ class WebSecurityConfig(
     fun filterChain(http: HttpSecurity): SecurityFilterChain {
         http {
             authorizeRequests {
-                authorize("/v1/register", permitAll)
-                authorize("/v1/login", permitAll)
+                authorize("/v1/authentication/**", permitAll)
                 authorize(anyRequest, authenticated)
             }
             headers { frameOptions { sameOrigin } }

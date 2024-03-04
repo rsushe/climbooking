@@ -31,20 +31,20 @@ export default {
   },
   methods: {
     async login() {
-      try {
-        const response = await this.$axios.post('/v1/login', {
-          username: this.username,
-          password: this.password,
-        });
-        console.log('Login successful', response);
-        this.loginSuccess = true;
-        this.errorMessage = '';
-
-      } catch (error) {
-        console.log('Login failed', error);
-        this.loginSuccess = false;
-        this.errorMessage = error.response.data.message || 'Login failed';
-      }
+      this.$axios.post('/v1/authentication/login', {
+        username: this.username,
+        password: this.password,
+      })
+          .then(response => {
+            console.log('Login successful', response);
+            this.loginSuccess = true;
+            this.errorMessage = '';
+          })
+          .catch(error => {
+            console.log('Login failed', error);
+            this.loginSuccess = false;
+            this.errorMessage = error.response.data.message || 'Login failed';
+          });
     }
   }
 };

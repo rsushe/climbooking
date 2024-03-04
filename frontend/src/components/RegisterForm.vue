@@ -4,16 +4,10 @@
     <form @submit.prevent="register">
       <input v-model="username" type="text" placeholder="username" required>
       <input v-model="password" type="password" placeholder="password" required>
+
       <select v-model="role">
-        <option disabled value="">
-          Please select one
-        </option>
-        <option>
-          Climber
-        </option>
-        <option>
-          Admin
-        </option>
+        <option disabled value="">Select role</option>
+        <option v-for="role in roles" :key="role" :value="role">{{ role }}</option>
       </select>
       <button type="submit">Register</button>
       <div v-if="registrationSuccess" class="message success">Registration Successful!</div>
@@ -29,26 +23,40 @@ export default {
       username: '',
       password: '',
       role: '',
+      roles: [],
       registrationSuccess: false,
       errorMessage: '',
     };
   },
+  created() {
+    this.fetchRoles();
+  },
   methods: {
     async register() {
-      try {
-        const response = await this.$axios.post('/v1/register', {
-          username: this.username,
-          password: this.password,
-          role: this.role,
-        });
-        console.log('Registration successful', response);
-        this.registrationSuccess = true;
-        this.errorMessage = '';
-      } catch (error) {
-        console.log('Registration failed', error);
-        this.registrationSuccess = false;
-        this.errorMessage = error.response.data.message || 'Registration failed';
-      }
+      this.$axios.post('/v1/authentication/register', {
+        username: this.username,
+        password: this.password,
+        role: this.role,
+      })
+          .then(response => {
+            console.log('Registration successful', response);
+            this.registrationSuccess = true;
+            this.errorMessage = '';
+          })
+          .catch(error => {
+            console.log('Registration failed', error);
+            this.registrationSuccess = false;
+            this.errorMessage = error.response.data.message || 'Registration failed';
+          });
+    },
+    async fetchRoles() {
+      this.$axios.get('/v1/authentication/roles')
+          .then(response => {
+            this.roles = response.data;
+          })
+          .catch(error => {
+            console.error('There was an error fetching the roles: ', error);
+          });
     }
   }
 };
