@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository
 import org.springframework.transaction.annotation.Transactional
 import ru.climbooking.domain.Role
 import ru.climbooking.domain.User
-import ru.climbooking.domain.UserRequest
+import ru.climbooking.domain.UserRegistrationRequest
 import ru.climbooking.exception.EntityNotFoundException
 
 @Repository
@@ -44,7 +44,7 @@ class UserDao(private val jdbcTemplate: NamedParameterJdbcTemplate) {
     }
 
     @Transactional
-    fun save(userRequest: UserRequest) = jdbcTemplate.update(
+    fun save(userRequest: UserRegistrationRequest) = jdbcTemplate.update(
         """
             insert into "user"(username, password, role)
             values (:username, :password, :role)
