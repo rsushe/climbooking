@@ -5,6 +5,9 @@
       <input v-model="username" type="text" placeholder="username" required>
       <input v-model="password" type="password" placeholder="password" required>
       <button type="submit">Login</button>
+      <p v-if="showAuthRequiredMessage" class="auth-message">
+        Please, login or register
+      </p>
       <div v-if="loginSuccess" class="message success">Login Successful!</div>
       <div v-if="errorMessage" class="message error">{{ errorMessage }}</div>
     </form>
@@ -20,6 +23,11 @@ export default {
       loginSuccess: false,
       errorMessage: '',
     };
+  },
+  computed: {
+    showAuthRequiredMessage() {
+      return this.$route.query.authRequired;
+    }
   },
   methods: {
     async login() {

@@ -15,35 +15,42 @@ import LoginForm from "@/components/LoginForm.vue";
 const routes = [
     {
         path: '/',
-        redirect: '/training-places'
+        redirect: '/register'
     },
     {
         path: '/training-places',
-        component: TrainingPlaces
+        component: TrainingPlaces,
+        meta: { requiresAuth: true }
     },
     {
         path: '/tournaments',
-        component: Tournaments
+        component: Tournaments,
+        meta: { requiresAuth: true }
     },
     {
         path: '/climbers',
-        component: Climbers
+        component: Climbers,
+        meta: { requiresAuth: true }
     },
     {
         path: '/bookings',
-        component: Bookings
+        component: Bookings,
+        meta: { requiresAuth: true }
     },
     {
         path: '/notifications',
-        component: Notifications
+        component: Notifications,
+        meta: { requiresAuth: true }
     },
     {
         path: '/routes',
-        component: Routes
+        component: Routes,
+        meta: { requiresAuth: true }
     },
     {
         path: '/achievement',
-        component: Achievement
+        component: Achievement,
+        meta: { requiresAuth: true }
     },
     {
         path: '/register',
@@ -58,6 +65,21 @@ const routes = [
 const router = createRouter({
     history: createWebHistory(),
     routes
+});
+
+router.beforeEach((to, from, next) => {
+    const isAuthenticated = localStorage.getItem('authToken');
+
+
+    if (to.matched.some(record => record.meta.requiresAuth) && !isAuthenticated) {
+        next({
+            path: '/login',
+            query: { redirect: to.fullPath, authRequired: true }
+        });
+    } else {
+        next();
+    }
+
 });
 
 axios.defaults.baseURL='http://localhost:8080';
